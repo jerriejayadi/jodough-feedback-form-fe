@@ -1,13 +1,4 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
-  async rewrites() {
-    return [
-      {
-        source: "/apis",
-        destination: process.env.HOST, // Proxy to Backend External
-      },
-    ];
-  },
-};
+const nextConfig = {};
 
 export default nextConfig;

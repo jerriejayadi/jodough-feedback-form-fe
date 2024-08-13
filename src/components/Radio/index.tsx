@@ -5,15 +5,21 @@ interface RadioProps extends InputHTMLAttributes<HTMLInputElement> {
   checked?: boolean;
 }
 
-export default function Radio({ label, checked, ...props }: RadioProps) {
+export default function Radio({ label, checked, id, ...props }: RadioProps) {
   return (
-    <div>
-      <input hidden {...props} placeholder={`Isi Nama Kamu`} />
+    <div className={`w-full`}>
+      <input
+        type="radio"
+        id={id}
+        checked={checked}
+        {...props}
+        className="hidden"
+      />
       <label
-        htmlFor={props.id}
-        className={`button text-xl flex gap-2 ${
+        htmlFor={id}
+        className={`button text-base flex gap-2 ${
           checked && "bg-white"
-        } font-bold`}
+        } font-bold w-full`}
       >
         {label}
       </label>

@@ -3,6 +3,8 @@ import { useState } from "react";
 import Radio from "../Radio";
 import { getFormData } from "@/utils/convertJSONToFormData";
 import { v4 as uuidv4 } from "uuid";
+import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
 
 type Question = {
   question: string;
@@ -16,7 +18,10 @@ type Step = {
 };
 
 const StepForm: React.FC<{ steps: Step[] }> = ({ steps }) => {
+  const router = useRouter();
   const [currentStep, setCurrentStep] = useState(0);
+  const [direction, setDirection] = useState<number>(1);
+  const [loading, setLoading] = useState<boolean>(false);
   const [answers, setAnswers] = useState<string[][]>(
     steps.map((step) => Array(step.questions.length).fill(""))
   );
@@ -32,6 +37,7 @@ const StepForm: React.FC<{ steps: Step[] }> = ({ steps }) => {
 
   const nextStep = () => {
     if (currentStep < steps.length - 1) {
+      setDirection(1);
       setCurrentStep(currentStep + 1);
     }
   };
@@ -43,6 +49,7 @@ const StepForm: React.FC<{ steps: Step[] }> = ({ steps }) => {
   };
 
   const handleSubmit = () => {
+    setLoading(true);
     let submittedData = {
       customerId: uuidv4(),
       name: answers[0][0],
@@ -89,9 +96,25 @@ const StepForm: React.FC<{ steps: Step[] }> = ({ steps }) => {
       }
     )
       .then((res) => {
+        setLoading(false);
+        router.push(`/`);
         console.log("SUCCESSFULLY SUBMITTED");
       })
       .catch((err) => console.log(err));
+  };
+  const variants = {
+    enter: (direction: number) => ({
+      x: direction > 0 ? 1000 : -1000,
+      opacity: 0,
+    }),
+    center: {
+      x: 0,
+      opacity: 1,
+    },
+    exit: (direction: number) => ({
+      x: direction < 0 ? 1000 : -1000,
+      opacity: 0,
+    }),
   };
 
   return (
@@ -102,48 +125,61 @@ const StepForm: React.FC<{ steps: Step[] }> = ({ steps }) => {
         </h2>
       )}
       {steps[currentStep].questions.map((question, index) => (
-        <div key={index} className="mb-4">
-          <label className="block mb-2">
-            {question.inputType === "select" && (
-              <div className={`font-skrapbook text-center text-2xl`}>
-                {question.question}
-              </div>
-            )}
-            {question.inputType === "text" && (
-              <input
-                type="text"
-                value={answers[currentStep][index]}
-                onChange={(e) => handleChange(index, e)}
-                placeholder={question.question}
-                className="button placeholder:text-[#B38E6C] text-xl"
-              />
-            )}
-            {question.inputType === "select" && (
-              <div className="mt-4">
-                {question.options?.map((option, optionIndex) => (
-                  <div
-                    key={optionIndex}
-                    className="flex items-center mb-2 font-sixhands text-black text-base"
-                  >
-                    <Radio
-                      type="radio"
-                      id={`question-${index}-option-${optionIndex}`}
-                      name={`question-${index}`}
-                      value={option}
-                      checked={answers[currentStep][index] === option}
-                      onChange={(e) => {
-                        handleChange(index, e);
-                        nextStep();
-                      }}
-                      className="mr-2 w-full"
-                      label={option}
-                    />
-                  </div>
-                ))}
-              </div>
-            )}
-          </label>
-        </div>
+        <motion.div
+          key={`${currentStep}-${index}`}
+          custom={direction}
+          variants={variants}
+          initial="enter"
+          animate="center"
+          exit="exit"
+          transition={{
+            x: { type: "spring", stiffness: 300, damping: 30 },
+            opacity: { duration: 0.2 },
+          }}
+        >
+          <div className="mb-4">
+            <label className="block mb-2">
+              {question.inputType === "select" && (
+                <div className={`font-skrapbook text-center text-2xl`}>
+                  {question.question}
+                </div>
+              )}
+              {question.inputType === "text" && (
+                <input
+                  type="text"
+                  value={answers[currentStep][index]}
+                  onChange={(e) => handleChange(index, e)}
+                  placeholder={question.question}
+                  className="button placeholder:text-[#B38E6C] text-xl"
+                />
+              )}
+              {question.inputType === "select" && (
+                <div className="mt-4">
+                  {question.options?.map((option, optionIndex) => (
+                    <div
+                      key={optionIndex}
+                      className="flex items-center mb-2 font-sixhands text-black text-base"
+                    >
+                      <Radio
+                        type="radio"
+                        id={`question-${index}-option-${optionIndex}`}
+                        name={`question-${index}`}
+                        value={option}
+                        checked={answers[currentStep][index] === option}
+                        onChange={(e) => {
+                          handleChange(index, e);
+                          nextStep();
+                        }}
+                        className="mr-2 w-full"
+                        label={option}
+                      />
+                    </div>
+                  ))}
+                </div>
+              )}
+            </label>
+          </div>
+        </motion.div>
       ))}
       <div className="mt-4 flex justify-between">
         {currentStep === 0 && (
@@ -151,17 +187,18 @@ const StepForm: React.FC<{ steps: Step[] }> = ({ steps }) => {
             onClick={() => {
               nextStep();
             }}
-            className={`button mt-5 text-black font-semibold`}
+            className={`button mt-5 text-black font-semibold active:bg-white`}
           >
             Selanjutnya
           </button>
         )}
         {currentStep === steps.length - 1 && (
           <button
+            disabled={loading}
             onClick={() => {
               handleSubmit();
             }}
-            className={`button text-xl font-bold text-black`}
+            className={`button text-xl font-bold text-black active:bg-white disabled:bg-gray-400 disabled:text-gray-500`}
           >
             Submit
           </button>

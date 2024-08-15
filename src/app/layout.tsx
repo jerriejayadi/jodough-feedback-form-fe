@@ -4,6 +4,7 @@ import "./globals.css";
 import LocalFont from "next/font/local";
 import Image from "next/image";
 import { ContextProvider } from "./context";
+import Background from "./background";
 
 const inter = Inter({ subsets: ["latin"] });
 const skrapbook = LocalFont({
@@ -33,13 +34,7 @@ export default function RootLayout({
         className={`${inter.className} ${skrapbook.className} ${sixHands.className} bg-[#294023] max-w-[425px] mx-auto`}
       >
         <ContextProvider>
-          <Image
-            className={`fixed -z-50`}
-            alt=""
-            src={`/pattern-bg.png`}
-            width={887}
-            height={1088}
-          />
+          {/* <Background /> */}
           {children}
         </ContextProvider>
       </body>

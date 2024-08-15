@@ -19,7 +19,7 @@ export default function Radio({ label, checked, id, ...props }: RadioProps) {
         htmlFor={id}
         className={`button text-base flex gap-2 ${
           checked && "bg-white"
-        } font-bold w-full`}
+        } active:bg-white font-bold w-full cursor-pointer`}
       >
         {label}
       </label>

@@ -12,6 +12,7 @@ import Page5 from "@/components/Pages/Page5";
 import Page6 from "@/components/Pages/Page6";
 import Page7 from "@/components/Pages/Page7";
 import { useRouter } from "next/navigation";
+import { motion } from "framer-motion";
 
 const PAGES = [
   <Page1 key={0} />,
@@ -35,24 +36,42 @@ export default function Home() {
     return () => clearTimeout(timeout);
   }, []);
 
-  if (isLoading) {
-    return <LoadingScreen />;
-  }
+  // if (isLoading) {
+  //   return <LoadingScreen />;
+  // }
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center px-9">
-      <Image
-        className={`w-40`}
-        alt=""
-        src={`/logo-white.png`}
-        width={1079}
-        height={1274}
-      />
-      <p className={`mt-4 font-sixhands text-white text-center`}>
+      <motion.div
+        initial={{ y: 100 }}
+        animate={{
+          y: [100, 70, 100, 70, 100, 0],
+          transition: { duration: 2 },
+        }}
+      >
+        <Image
+          className={`w-40`}
+          alt=""
+          src={`/logo-white.png`}
+          width={1079}
+          height={1274}
+        />
+      </motion.div>
+      <motion.p
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 100 }}
+        transition={{ delay: 2, duration: 1.5 }}
+        className={`mt-4 font-sixhands text-white text-center`}
+      >
         Terima kasih atas kunjungan kakak Bolehkah Minnat minta bantuannya untuk
         isii....
-      </p>
-      <div className={`relative flex gap-2 mt-4`}>
+      </motion.p>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 100 }}
+        transition={{ delay: 2, duration: 1.5 }}
+        className={`relative flex gap-2 mt-4`}
+      >
         <Image
           className={`object-contain`}
           alt={``}
@@ -67,21 +86,27 @@ export default function Home() {
           width={29}
           height={39}
         />
-      </div>
-      <p
+      </motion.div>
+      <motion.p
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 100 }}
+        transition={{ delay: 2, duration: 1.5 }}
         className={`font-skrapbook text-2xl font-bold text-white text-center mt-4`}
       >
         Customer Feedback Form
-      </p>
+      </motion.p>
 
-      <button
+      <motion.button
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 100 }}
+        transition={{ delay: 2, duration: 1.5 }}
         onClick={() => {
           router.push(`/questionnaire`);
         }}
         className={`button mt-4`}
       >
         Klik Di Sini
-      </button>
+      </motion.button>
     </main>
   );
 }

@@ -97,7 +97,7 @@ const StepForm: React.FC<{ steps: Step[] }> = ({ steps }) => {
     )
       .then((res) => {
         setLoading(false);
-        router.push(`/`);
+        router.push(`/closing-page`);
         console.log("SUCCESSFULLY SUBMITTED");
       })
       .catch((err) => console.log(err));

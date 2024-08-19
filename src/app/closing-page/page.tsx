@@ -1,14 +1,12 @@
 "use client";
 
-import { DONUT_IMAGE_LIST } from "@/utils/lib";
+import { DONUT_IMAGE_LIST, DONUT_IMAGE_LIST_PROPS } from "@/utils/lib";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
 const ClosingPage: React.FC = () => {
-  const [selectedURL, setSelectedURL] = useState<string>(
-    "/images/Jodough_Doughnut/donut-1.png"
-  );
+  const [selectedURL, setSelectedURL] = useState<DONUT_IMAGE_LIST_PROPS>();
 
   useEffect(() => {
     setSelectedURL(DONUT_IMAGE_LIST[Math.floor(Math.random() * 19)]);
@@ -33,7 +31,7 @@ const ClosingPage: React.FC = () => {
         <Image
           className={`w-96 object-cover`}
           alt={``}
-          src={selectedURL}
+          src={selectedURL?.url!}
           width={1080}
           height={1080}
         />{" "}
@@ -46,7 +44,7 @@ const ClosingPage: React.FC = () => {
         <div
           className={`font-skrapbook font-bold text-white text-center text-2xl`}
         >
-          Donat Chocolate!
+          {selectedURL?.name ?? ""}
         </div>
         <div className={`mt-10`}>
           <button

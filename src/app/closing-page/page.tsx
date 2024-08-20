@@ -9,7 +9,9 @@ const ClosingPage: React.FC = () => {
   const [selectedURL, setSelectedURL] = useState<DONUT_IMAGE_LIST_PROPS>();
 
   useEffect(() => {
-    setSelectedURL(DONUT_IMAGE_LIST[Math.floor(Math.random() * 19)]);
+    setSelectedURL(
+      DONUT_IMAGE_LIST[Math.floor(Math.random() * DONUT_IMAGE_LIST.length - 1)]
+    );
   }, []);
   return (
     <main
@@ -29,7 +31,7 @@ const ClosingPage: React.FC = () => {
         transition={{ delay: 4, duration: 2 }}
       >
         <Image
-          className={`w-96 object-cover`}
+          className={`size-64 object-cover`}
           alt={``}
           src={selectedURL?.url!}
           width={1080}
@@ -42,7 +44,7 @@ const ClosingPage: React.FC = () => {
         transition={{ delay: 4, duration: 2 }}
       >
         <div
-          className={`font-skrapbook font-bold text-white text-center text-2xl`}
+          className={`font-skrapbook font-black text-white text-center text-2xl`}
         >
           {selectedURL?.name ?? ""}
         </div>
@@ -57,8 +59,8 @@ const ClosingPage: React.FC = () => {
               className={`size-8`}
               alt={``}
               src={`/icons/whatsapp.png`}
-              width={100}
-              height={100}
+              width={1000}
+              height={1000}
             />{" "}
             Claim Free Donut
           </button>

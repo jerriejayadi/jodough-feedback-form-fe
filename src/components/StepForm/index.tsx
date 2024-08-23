@@ -187,18 +187,23 @@ const StepForm: React.FC<{ steps: Step[] }> = ({ steps }) => {
             onClick={() => {
               nextStep();
             }}
-            className={`button mt-5 text-black font-semibold active:bg-white`}
+            disabled={
+              answers[0][0] === "" ||
+              answers[0][1] === "" ||
+              answers[0][2] === ""
+            }
+            className={`button mt-5 text-[#DCC9B8] bg-[#B38E6C]  font-semibold active:bg-white disabled:bg-gray-600 disabled:text-gray-400`}
           >
             Selanjutnya
           </button>
         )}
         {currentStep === steps.length - 1 && (
           <button
-            disabled={loading}
+            disabled={loading || answers.some((rows) => rows.some((rows2)=>(rows2==='')))}
             onClick={() => {
               handleSubmit();
             }}
-            className={`button text-xl font-bold text-black active:bg-white disabled:bg-gray-400 disabled:text-gray-500`}
+            className={`button text-[#DCC9B8] bg-[#B38E6C]  text-xl font-bold  active:bg-white disabled:bg-gray-400 disabled:text-gray-500`}
           >
             Submit
           </button>

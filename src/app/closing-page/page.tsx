@@ -1,6 +1,10 @@
 "use client";
 
-import { DONUT_IMAGE_LIST, DONUT_IMAGE_LIST_PROPS } from "@/utils/lib";
+import {
+  DONUT_IMAGE_LIST,
+  DONUT_IMAGE_LIST_PROPS,
+  WHATSAPP_DEFAULT_MESSAGE,
+} from "@/utils/lib";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -8,6 +12,11 @@ import { useEffect, useState } from "react";
 const ClosingPage: React.FC = () => {
   const [selectedURL, setSelectedURL] = useState<DONUT_IMAGE_LIST_PROPS>();
 
+  const handleClick = () => {
+    let message = WHATSAPP_DEFAULT_MESSAGE;
+
+    window.open(`https://wa.me/+628113663993?text=${message}`, "_blank");
+  };
   useEffect(() => {
     setSelectedURL(
       DONUT_IMAGE_LIST[Math.floor(Math.random() * DONUT_IMAGE_LIST.length - 1)]
@@ -23,7 +32,7 @@ const ClosingPage: React.FC = () => {
         transition={{ delay: 1, duration: 2 }}
         className={`font-skrapbook font-bold text-white text-2xl text-center`}
       >
-        Kamu adalah tipe donat...
+        Tipe donat mu adalah...
       </motion.div>
       <motion.div
         initial={{ opacity: 0 }}
@@ -51,7 +60,7 @@ const ClosingPage: React.FC = () => {
         <div className={`mt-10`}>
           <button
             onClick={() => {
-              window.open(`https://wa.me/+6281253195000`);
+              handleClick();
             }}
             className={`button flex items-center justify-center gap-2`}
           >

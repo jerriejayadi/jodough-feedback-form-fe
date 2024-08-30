@@ -60,3 +60,6 @@ export const DONUT_IMAGE_LIST: DONUT_IMAGE_LIST_PROPS[] = [
     url: "/images/Jodough_Doughnut/donat-19.png",
   },
 ];
+
+export const WHATSAPP_DEFAULT_MESSAGE =
+  "Haloo+Admin+JoDough%21+Saya+baru+saja+mengisi+Customer+Feedback+Form+JoDough+dan+ingin+claim+Free+Donut%21";

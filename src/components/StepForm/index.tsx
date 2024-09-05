@@ -5,6 +5,7 @@ import { getFormData } from "@/utils/convertJSONToFormData";
 import { v4 as uuidv4 } from "uuid";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
+import moment from "moment";
 
 type Question = {
   question: string;
@@ -51,6 +52,7 @@ const StepForm: React.FC<{ steps: Step[] }> = ({ steps }) => {
   const handleSubmit = () => {
     setLoading(true);
     let submittedData = {
+      date: moment(new Date()).format("YYYY-MM-DD"),
       customerId: uuidv4(),
       name: answers[0][0],
       phone: answers[0][1],
@@ -80,7 +82,7 @@ const StepForm: React.FC<{ steps: Step[] }> = ({ steps }) => {
     let payload = getFormData(submittedData);
     console.log("Answers Submitted:", submittedData);
     fetch(
-      "https://script.google.com/macros/s/AKfycby364cJ_9L4W7OYJbhmqHim5p5Jf6SlaglTBOYPe00zhrkHcaYObg9ysWSxgKZ3jDTL/exec",
+      "https://script.google.com/macros/s/AKfycbypVZZgA5hnuXapwWdMGTIcapD8iNoftxfUHzwEa8HwaaYjQ2vCx8AhHPE_GTv1LLqw/exec",
       {
         mode: "no-cors",
         method: "POST",
@@ -199,7 +201,10 @@ const StepForm: React.FC<{ steps: Step[] }> = ({ steps }) => {
         )}
         {currentStep === steps.length - 1 && (
           <button
-            disabled={loading || answers.some((rows) => rows.some((rows2)=>(rows2==='')))}
+            disabled={
+              loading ||
+              answers.some((rows) => rows.some((rows2) => rows2 === ""))
+            }
             onClick={() => {
               handleSubmit();
             }}

@@ -19,7 +19,7 @@ const ClosingPage: React.FC = () => {
   };
   useEffect(() => {
     setSelectedURL(
-      DONUT_IMAGE_LIST[Math.floor(Math.random() * DONUT_IMAGE_LIST.length - 1)]
+      DONUT_IMAGE_LIST[Math.floor(Math.random() * DONUT_IMAGE_LIST.length - 2)]
     );
   }, []);
   return (
@@ -56,6 +56,10 @@ const ClosingPage: React.FC = () => {
           className={`font-skrapbook font-black text-white text-center text-2xl`}
         >
           {selectedURL?.name ?? ""}
+        </div>
+        <div className={`font-skrapbook  text-white text-center text-xs mt-2 leading-5`}>
+          Screenshot halaman ini dan kirim ke kami melalui button &apos;Claim Free
+          Donut&apos;
         </div>
         <div className={`mt-10`}>
           <button

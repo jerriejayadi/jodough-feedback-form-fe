@@ -7,10 +7,14 @@ import {
 } from "@/utils/lib";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { AppContext } from "../context";
+import { useRouter } from "next/navigation";
 
 const ClosingPage: React.FC = () => {
+  const router = useRouter();
   const [selectedURL, setSelectedURL] = useState<DONUT_IMAGE_LIST_PROPS>();
+  const { state } = useContext(AppContext);
 
   const handleClick = () => {
     let message = WHATSAPP_DEFAULT_MESSAGE;
@@ -18,11 +22,11 @@ const ClosingPage: React.FC = () => {
     window.open(`https://wa.me/+628113663993?text=${message}`, "_blank");
   };
   useEffect(() => {
-    setSelectedURL(
-      DONUT_IMAGE_LIST[
-        Math.floor(Math.random() * (DONUT_IMAGE_LIST.length - 1))
-      ]
-    );
+    if (!state) {
+      router.push(`/`);
+    } else {
+      setSelectedURL(state);
+    }
   }, []);
 
   return (
@@ -61,10 +65,9 @@ const ClosingPage: React.FC = () => {
           {selectedURL?.name ?? ""}
         </div>
         <div
-          className={`font-skrapbook  text-white text-center text-xs mt-2 leading-5`}
+          className={`font-skrapbook text-center text-[#F1C40F] text-sm mt-2 leading-5 font-bold rounded-lg p-2`}
         >
-          Screenshot halaman ini dan kirim ke kami melalui button &apos;Claim
-          Free Donut&apos;
+          Screenshot halaman ini dan claim donat kamu sekarang
         </div>
         <div className={`mt-10`}>
           <button

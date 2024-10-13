@@ -1,11 +1,13 @@
 "use client";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Radio from "../Radio";
 import { getFormData } from "@/utils/convertJSONToFormData";
 import { v4 as uuidv4 } from "uuid";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import moment from "moment";
+import { DONUT_IMAGE_LIST } from "@/utils/lib";
+import { AppContext } from "@/app/context";
 
 type Question = {
   question: string;
@@ -26,6 +28,7 @@ const StepForm: React.FC<{ steps: Step[] }> = ({ steps }) => {
   const [answers, setAnswers] = useState<string[][]>(
     steps.map((step) => Array(step.questions.length).fill(""))
   );
+  const { state, setState } = useContext(AppContext);
 
   const handleChange = (
     questionIndex: number,
@@ -51,6 +54,11 @@ const StepForm: React.FC<{ steps: Step[] }> = ({ steps }) => {
 
   const handleSubmit = () => {
     setLoading(true);
+    const claimedDonut =
+      DONUT_IMAGE_LIST[
+        Math.floor(Math.random() * (DONUT_IMAGE_LIST.length - 1))
+      ];
+    setState(claimedDonut);
     let submittedData = {
       date: moment(new Date()).format("YYYY-MM-DD"),
       customerId: uuidv4(),
@@ -78,6 +86,7 @@ const StepForm: React.FC<{ steps: Step[] }> = ({ steps }) => {
       answer19: answers[19][0],
       answer20: answers[20][0],
       answer21: answers[21][0],
+      donut: claimedDonut.name,
     };
     let payload = getFormData(submittedData);
     console.log("Answers Submitted:", submittedData);

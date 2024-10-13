@@ -1,11 +1,5 @@
 "use client";
-import {
-  createContext,
-  Dispatch,
-  SetStateAction,
-  useContext,
-  useState,
-} from "react";
+import { createContext, Dispatch, SetStateAction, useState } from "react";
 
 interface FormProps {
   page: number;
@@ -24,26 +18,12 @@ interface FormProps {
 }
 interface ContextProps {
   state: FormProps;
-  setState: Dispatch<SetStateAction<FormProps>>;
+  setState: Dispatch<SetStateAction<string>>;
 }
 
 export const AppContext = createContext<ContextProps | any>({});
 export function ContextProvider({ children }: { children: React.ReactNode }) {
-  const [state, setState] = useState<FormProps>({
-    page: 1,
-    formData: {
-      customerId: "",
-      name: "",
-      phone: "",
-      city: "",
-      answer1: "",
-      answer2: "",
-      answer3: "",
-      answer4: "",
-      answer5: "",
-      answer6: "",
-    },
-  });
+  const [state, setState] = useState<string>("");
 
   return (
     <AppContext.Provider value={{ state, setState }}>
